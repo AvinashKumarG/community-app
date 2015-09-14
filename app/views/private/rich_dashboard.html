@@ -6,33 +6,257 @@
 	    </div>
     </h3>
     <hr/>
-    <div id="home" class="row">
-    	<div class="col-md-4">
-	    	<div class="panel panel-default">
+
+	<div class="row">
+		<div class="col-sm-8 col-md-8">
+			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title"><i class="icon-bolt"></i>{{'label.heading.recentactivities' | translate}}</h3>
+					<h3 class="panel-title">{{'label.heading.clienttrendsfor' | translate}} {{bOfficeName}} ({{chartType}})
+						<select class="form-control input-small-tooltip pull-right" name="office1" ng-change="getDailyData()"
+								id="office1" ng-model="officeId"
+								data-ng-options="office.id as office.name for office in offices" value="{{office.id}}">
+							<option value="">--{{'label.menu.office' | translate}}--</option>
+						</select>
+					</h3>
 				</div>
 				<div class="panel-body">
-					<div class="list-group">
+					<div>
+						<button type="button" class="btn-silver btn-tooltip" data-ng-click="getWeeklyData()"><i
+								class="icon-table"></i>{{'label.button.week' | translate}}
+						</button>
+						<button type="button" class="btn-silver btn-tooltip" data-ng-click="getMonthlyData()"><i
+								class="icon-table"></i>{{'label.button.month' | translate}}
+						</button>
+						<button type="button" class="btn-silver btn-tooltip" data-ng-click="getDailyData()"><i
+								class="icon-table"></i>{{'label.button.day' | translate}}
+						</button>
+					</div>
+					<div style="height:250px;">
+						<nvd3-multi-bar-chart
+								data="BarData"
+								id="barchart"
+								width="800"
+								height="380"
+								color="colorFunction()"
+								showLegend="true">
+							<svg></svg>
+						</nvd3-multi-bar-chart>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-4 col-md-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">{{'label.heading.amontcollectedfortoday' | translate}}
+						<select class="form-control input-small-tooltip pull-right" name="office1" ng-change="getCollectionOffice()"
+								id="office" ng-model="officeIdCollection"
+								data-ng-options="office.id as office.name for office in offices" value="{{office.id}}">
+							<option value="">&#45;&#45;{{'label.menu.office' | translate}}&#45;&#45;</option>
+						</select>
+					</h3>
+				</div>
+				<div class="panel-body" style="min-height:310px;">
+					<h3 class="required panel-error" data-ng-show="showCollectionerror">{{'label.nodata' | translate}}</h3>
+					<div data-ng-show="!showCollectionerror" style="margin:-30px 40px 0;height: 310px;">
+						<nvd3-pie-chart
+								data="collectedData"
+								id="piechart1"
+								width="380"
+								height="420"
+								x="xFunction()"
+								y="yFunction()"
+								tooltips="true"
+								donut="true"
+								donutRatio=".015"
+								color="colorFunctionPie()">
+							<svg height="230"></svg>
+						</nvd3-pie-chart>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<!--<div class="col-sm-4 col-md-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">{{'label.heading.amontcollectedfortoday' | translate}}
+						<select class="form-control input-small-tooltip pull-right" name="office1" ng-change="getCollectionOffice()"
+								id="office1" ng-model="officeIdCollection"
+								data-ng-options="office.id as office.name for office in offices" value="{{office.id}}">
+							<option value="">&#45;&#45;{{'label.menu.office' | translate}}&#45;&#45;</option>
+						</select>
+					</h3>
+				</div>
+				<div class="panel-body" style="min-height:310px;">
+					<h3 class="required panel-error" data-ng-show="showCollectionerror">{{'label.nodata' | translate}}</h3>
+					<div data-ng-show="!showCollectionerror" style="margin:-30px 40px 0;height: 310px;">
+						<nvd3-pie-chart
+								data="collectedData"
+								id="piechart1"
+								width="380"
+								height="420"
+								x="xFunction()"
+								y="yFunction()"
+								tooltips="true"
+								donut="true"
+								donutRatio=".015"
+								color="colorFunctionPie()">
+							<svg height="230"></svg>
+						</nvd3-pie-chart>
+					</div>
+				</div>
+			</div>
+		</div>-->
+    <div id="home" class="row">
+    	<!--<div class="col-md-4">
+	    	<div class="panel panel-default">
+				<div class="panel-heading">
+					&lt;!&ndash;<h3 class="panel-title"><i class="icon-bolt"></i>{{'label.heading.recentactivities' | translate}}</h3>&ndash;&gt;
+				</div>
+				<div class="panel-body">
+					&lt;!&ndash;<div class="list-group">
 					  <a href="#{{recent}}" data-ng-repeat="recent in recents" class="list-group-item">
 					  	{{recent | UrlToString | translate}}</a>
-					</div>
+					</div>&ndash;&gt;
 				</div>
 		    </div>
 	    </div>
 	    <div class="col-md-4">
 	    	<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title"><i class="icon-laptop"></i>{{'label.heading.frequentactivities' | translate}}</h3>
+					&lt;!&ndash;<h3 class="panel-title"><i class="icon-laptop"></i>{{'label.heading.frequentactivities' | translate}}</h3>&ndash;&gt;
 				</div>
 				<div class="panel-body">
 					<div class="list-group">
-					  <a href="#{{freq}}" data-ng-repeat="freq in frequent" class="list-group-item">
-					  	{{freq | UrlToString | translate}}</a>
+					  &lt;!&ndash;<a href="#{{freq}}" data-ng-repeat="freq in frequent" class="list-group-item">
+					  	{{freq | UrlToString | translate}}</a>&ndash;&gt;
 					</div>
 				</div>
 		    </div>
-	    </div>
+	    </div>-->
+
+		<!--<div class="col-sm-4 col-md-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">{{'label.heading.amontcollectedfortoday' | translate}}
+						<select class="form-control input-small-tooltip pull-right" name="office1" ng-change="getCollectionOffice()"
+								id="office1" ng-model="officeIdCollection"
+								data-ng-options="office.id as office.name for office in offices" value="{{office.id}}">
+							<option value="">&#45;&#45;{{'label.menu.office' | translate}}&#45;&#45;</option>
+						</select>
+					</h3>
+				</div>
+				<div class="panel-body" style="min-height:310px;">
+					<h3 class="required panel-error" data-ng-show="showCollectionerror">{{'label.nodata' | translate}}</h3>
+					<div data-ng-show="!showCollectionerror" style="margin:-30px 40px 0;height: 310px;">
+						<nvd3-pie-chart
+								data="collectedData"
+								id="piechart1"
+								width="380"
+								height="420"
+								x="xFunction()"
+								y="yFunction()"
+								tooltips="true"
+								donut="true"
+								donutRatio=".015"
+								color="colorFunctionPie()">
+							<svg height="230"></svg>
+						</nvd3-pie-chart>
+					</div>
+				</div>
+			</div>
+		</div>-->
+		<div class="col-sm-4 col-md-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						Pendings
+					</h3>
+				</div>
+				<div class="panel-body">
+					<ul class="nav nav-pills" role="tablist">
+						<li role="presentation"><a href="#">Client Activations <span class="badge">42</span></a></li>
+						<li role="presentation"><a href="#">Center Activations</a></li>
+						<li role="presentation"><a href="#">Group Activations <span class="badge">3</span></a></li>
+						<li role="presentation"><a href="#">Loan Sections <span class="badge">3</span></a></li>
+						<li role="presentation"><a href="#">Loan Disbursals <span class="badge">3</span></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="col-sm-4 col-md-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Collections
+				</div>
+				<div class="panel-body" style="padding-top: 4px;padding-right: 0px;padding-bottom: 0px;padding-left: 5px;height:200px;">
+					<div class="row"  style="padding-bottom: 3px;">
+						<div class="col-sm-4 col-md-4 ">
+							{{'label.button.offices' | translate}}
+						</div>
+						<div class="col-sm-6 col-md-6" >
+							<select chosen="offices" id="officeId" ng-model="officeId" name="office" class="chzn-select-deselect form-control"
+									ng-options="office.id as office.name for office in offices" value="{{office.id}}"
+									ng-change="officeSelected(officeId)" required>
+								<option value="">{{'label.button.offices' | translate}}&nbsp;({{officeName}})</option>
+							</select>
+						</div>
+					</div>
+					<div class="row"  style="padding-bottom: 3px;">
+						<div class="col-sm-4 col-md-4">
+							{{'label.button.loanofficers' | translate}}
+						</div>
+						<div class="col-sm-6 col-md-6 pull-left">
+							<select chosen="staffs" id="staffId" ng-model="staffId" name="office" class="chzn-select-deselect form-control"
+									ng-options="staff.id as staff.name for staff in staffs" value="{{staff.id}}"
+									ng-change="staffSelected(staffId)" required>
+								<option value="">{{'label.button.loanofficers' | translate}}&nbsp;({{staffName}})</option>
+							</select>
+						</div>
+					</div>
+					<div class="row"  style="padding-bottom: 3px;">
+						<div class="col-sm-4 col-md-4">
+							{{'label.button.centers' | translate}}
+						</div>
+						<div class="col-sm-6 col-md-6 pull-left">
+							<select chosen="centers" id="centerId" ng-model="centerId" name="center" class="chzn-select-deselect form-control"
+									ng-options="center.id as center.name for center in centers" value="{{center.id}}"
+									ng-change="centerSelected(centerId)" required>
+								<option value="">{{'label.button.centers' | translate}}&nbsp;({{centerName}})</option>
+							</select>
+						</div>
+					</div>
+					<div class="row"  style="padding-bottom: 3px;">
+						<div class="col-sm-4 col-md-4">
+							{{'label.button.groups' | translate}}
+						</div>
+						<div class="col-sm-6 col-md-6 pull-left">
+							<select chosen="groups" id="groupId" ng-model="groupId" name="group" class="chzn-select-deselect form-control"
+									ng-options="group.id as group.name for group in groups" value="{{group.id}}"
+									ng-change="groupSelected(groupId)" required>
+								<option value="">{{'label.button.groups' | translate}}&nbsp;({{groupName}})</option>
+							</select>
+						</div>
+					</div><br/>
+
+					<div class="row pull-right" style="padding-bottom: 10px;">
+						<div class="col-sm-4">
+							<button class=" btn btn-primary btn-sm btn-active">
+								<b style="padding-left: 0px;">JLG Collections</b>
+							</button>
+						</div>
+						<div class="col-sm-4">
+							<button class=" btn btn-sm btn-silver-info">
+								<b style="margin: 0px;">Ind Collections</b>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	    <div class="col-sm-4 col-md-4">
 	    	<div class="panel panel-default">
 				<div class="panel-heading">
@@ -65,8 +289,8 @@
 				</div>
 		    </div>
         </div>
-    </div>
-   	<div class="row">
+	</div>
+   	<!--<div class="row">
 		<div class="col-sm-8 col-md-8">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -74,7 +298,7 @@
 						<select class="form-control input-small-tooltip pull-right" name="office1" ng-change="getDailyData()"
 			                     id="office1" ng-model="officeId"
 			                     data-ng-options="office.id as office.name for office in offices" value="{{office.id}}">
-			                 <option value="">--{{'label.menu.office' | translate}}--</option>
+			                 <option value="">&#45;&#45;{{'label.menu.office' | translate}}&#45;&#45;</option>
 			             </select>
 					</h3>
 				</div>
@@ -104,6 +328,7 @@
 				</div>
 		    </div>
 		</div>
+
 		<div class="col-sm-4 col-md-4">
 	    	<div class="panel panel-default">
 				<div class="panel-heading">
@@ -111,7 +336,7 @@
 						<select class="form-control input-small-tooltip pull-right" name="office1" ng-change="getCollectionOffice()"
 				                id="office1" ng-model="officeIdCollection"
 				                data-ng-options="office.id as office.name for office in offices" value="{{office.id}}">
-				            <option value="">--{{'label.menu.office' | translate}}--</option>
+				            <option value="">&#45;&#45;{{'label.menu.office' | translate}}&#45;&#45;</option>
 				        </select>
 					</h3>
 				</div>
@@ -135,5 +360,33 @@
 				</div>
 		    </div>
         </div>
-	</div>
+		<div id="home" class="row">
+			<div class="col-md-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title"><i class="icon-bolt"></i>{{'label.heading.recentactivities' | translate}}</h3>
+					</div>
+					<div class="panel-body">
+						<div class="list-group">
+							<a href="#{{recent}}" data-ng-repeat="recent in recents" class="list-group-item">
+								{{recent | UrlToString | translate}}</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title"><i class="icon-laptop"></i>{{'label.heading.frequentactivities' | translate}}</h3>
+					</div>
+					<div class="panel-body">
+						<div class="list-group">
+							<a href="#{{freq}}" data-ng-repeat="freq in frequent" class="list-group-item">
+								{{freq | UrlToString | translate}}</a>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>-->
+</div>
 </div>

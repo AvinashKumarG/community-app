@@ -5,6 +5,7 @@
             scope.actualClients = [];
             scope.searchText = "";
             scope.searchResults = [];
+
             scope.routeTo = function (id) {
                 location.path('/viewclient/' + id);
             };
