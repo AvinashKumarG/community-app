@@ -333,6 +333,7 @@
             });
         }
     });
+
     mifosX.ng.application.controller('MainController', [
         '$scope',
         '$location',
